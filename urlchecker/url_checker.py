@@ -1,27 +1,9 @@
 import requests
 import re
+from urlparse import urlparse
 
 
-class UrlStatus(object):
-    UNKNOWN = 0
-    OK = 1
-    ERROR = 2
-    MOVED = 3
-    PARKING = 4
-    INVALID_URL = 5
-
-    @classmethod
-    def choices(cls):
-        return (
-            (cls.UNKNOWN, "unknown"),
-            (cls.OK, "ok"),
-            (cls.ERROR, "not working"),
-            (cls.MOVED, "site moved"),
-            (cls.PARKING, "parking site"),
-            (cls.INVALID_URL, "invalid URL"),
-        )
-
-SEARCH_PHRASES = (
+PARKED_PHRASES = (
     r'godaddy\.com/park',
     r'(?:domain|website)\s+(?:name)?\s*(?:is)?\s*for\s+sale',
     r'buy\s+this\s+domain',
@@ -34,20 +16,11 @@ MIN_WEBSITE_SIZE = 500  # Minimal webpage size in bytes
 
 
 def same_domain(url1, url2):
-    # cut out everything after third slash
-    protocol1, domain1 = filter(lambda x: x, url1.split('/'))[:2]
-    protocol2, domain2 = filter(lambda x: x, url2.split('/'))[:2]
-    # normalize domains
-    if domain1.startswith('www.'):
-        domain1 = domain1[4:]
-    if domain2.startswith('www.'):
-        domain2 = domain2[4:]
-    # normalize protocols
-    if protocol1 == 'https:':
-        protocol1 = 'http:'
-    if protocol2 == 'https:':
-        protocol2 = 'http:'
-    return protocol1 == protocol2 and domain1 == domain2
+    parsed1 = urlparse(url1)
+    parsed2 = urlparse(url2)
+    domain1 = parsed1.netloc if not parsed1.netloc.startswith('www.') else parsed1.netloc[4:]
+    domain2 = parsed2.netloc if not parsed2.netloc.startswith('www.') else parsed2.netloc[4:]
+    return domain1 == domain2
 
 
 def url_valid(url):
@@ -62,31 +35,64 @@ def url_valid(url):
     return regex.match(url)
 
 
-def check_url(url, timeout=8):
-    if not url_valid(url):
-        return UrlStatus.INVALID_URL
-    data = ""
-    try:
-        res = requests.get(url, timeout=timeout, headers={'user-agent': "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0"})
-    except requests.exceptions.RequestException:
-        return UrlStatus.ERROR
+class UrlChecker(object):
+    OK = 0
+    OK_MOVED = 1
+    ERROR = 2
+    PARKING = 3
+    INVALID_URL = 4
 
-    if res.status_code != 200:
-        return UrlStatus.ERROR
+    DEFAULT_TIMEOUT = 8
 
-    data = res.text
+    moved_to_url = None
 
-    udata = re.sub(r'\s+', ' ', data)
-    if len(udata) < MIN_WEBSITE_SIZE:
-        return UrlStatus.PARKING
+    def __init__(self, url, timeout=DEFAULT_TIMEOUT):
+        self.url = url
+        self.timeout = timeout
+        self.status = self.check_url()
 
-    for phrase in SEARCH_PHRASES:
-        if re.search(phrase, data, flags=re.I) is not None:
-            return UrlStatus.PARKING
+    @property
+    def is_working(self):
+        return self.status in (self.OK, self.OK_MOVED, self.PARKING)
 
-    if res.history:
-        for history in res.history:
-            if not same_domain(url, history.url):
-                return UrlStatus.MOVED
+    @property
+    def is_valid(self):
+        return self.status != self.INVALID_URL
 
-    return UrlStatus.OK
+    @property
+    def is_parking(self):
+        return self.status == self.PARKING
+
+    @property
+    def new_url(self):
+        return self.moved_to_url
+
+    def check_url(self):
+        if not url_valid(self.url):
+            return self.INVALID_URL
+        data = ""
+        try:
+            res = requests.get(self.url, timeout=self.timeout, headers={'user-agent': "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0"})
+        except requests.exceptions.RequestException:
+            return self.ERROR
+
+        if res.status_code != 200:
+            return self.ERROR
+
+        data = res.text
+
+        udata = re.sub(r'\s+', ' ', data)
+        if len(udata) < MIN_WEBSITE_SIZE:
+            return self.PARKING
+
+        for phrase in PARKED_PHRASES:
+            if re.search(phrase, data, flags=re.I) is not None:
+                return self.PARKING
+
+        if res.history:
+            for history in res.history:
+                if not same_domain(self.url, history.url):
+                    self.moved_to_url = res.history[-1].url
+                    return self.OK_MOVED
+
+        return self.OK
