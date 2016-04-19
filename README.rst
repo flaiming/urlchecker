@@ -1,7 +1,7 @@
 URL checker
 =======================
 
-|PyPI| |GitHub-license| |Requires.io| |Travis|
+|GitHub-license| |Requires.io| |Travis|
 
     Built from `makenew/python-package <https://github.com/makenew/python-package>`__.
 
