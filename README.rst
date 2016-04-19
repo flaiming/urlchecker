@@ -5,14 +5,14 @@ URL checker
 
     Built from `makenew/python-package <https://github.com/makenew/python-package>`__.
 
-.. |GitHub-license| image:: https://img.shields.io/github/license/Flaiming/urlchecker.svg
+.. |GitHub-license| image:: https://img.shields.io/github/license/flaiming/urlchecker.svg
    :target: ./LICENSE.txt
    :alt: GitHub license
 .. |Requires.io| image:: https://requires.io/github/flaiming/urlchecker/requirements.svg?branch=master
      :target: https://requires.io/github/flaiming/urlchecker/requirements/?branch=master
      :alt: Requirements Status
-.. |Travis| image:: https://img.shields.io/travis/Flaiming/urlchecker.svg
-   :target: https://travis-ci.org/Flaiming/urlchecker
+.. |Travis| image:: https://img.shields.io/travis/flaiming/urlchecker.svg?branch=master
+   :target: https://travis-ci.org/flaiming/urlchecker
    :alt: Travis
 
 Description
@@ -36,9 +36,9 @@ Clone the project with
 
 ::
 
-    $ git clone https://github.com/Flaiming/urlchecker.git
+    $ git clone https://github.com/flaiming/urlchecker.git
 
-.. _urlchecker source: https://github.com/Flaiming/urlchecker
+.. _urlchecker source: https://github.com/flaiming/urlchecker
 
 Requirements
 ~~~~~~~~~~~~
@@ -77,7 +77,7 @@ Please submit and comment on bug reports and feature requests.
 
 To submit a patch:
 
-1. Fork it (https://github.com/Flaiming/urlchecker/fork).
+1. Fork it (https://github.com/flaiming/urlchecker/fork).
 2. Create your feature branch (``git checkout -b my-new-feature``).
 3. Make changes. Write and run tests.
 4. Commit your changes (``git commit -am 'Add some feature'``).
