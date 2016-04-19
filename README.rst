@@ -5,9 +5,6 @@ URL checker
 
     Built from `makenew/python-package <https://github.com/makenew/python-package>`__.
 
-.. |PyPI| image:: https://img.shields.io/pypi/v/urlchecker.svg
-   :target: https://pypi.python.org/pypi/urlchecker
-   :alt: PyPI
 .. |GitHub-license| image:: https://img.shields.io/github/license/Flaiming/urlchecker.svg
    :target: ./LICENSE.txt
    :alt: GitHub license
@@ -27,35 +24,6 @@ Installation
 ------------
 
 This package is currently in development and available only through git.
-
-<!--
-This package is registered on the `Python Package Index (PyPI)`_
-as urlchecker_.
-
-Add this line to your application's requirements.txt
-
-::
-
-    urlchecker
-
-and install it with
-
-::
-
-    $ pip install -r requirements.txt
-
-If you are writing a Python package which will depend on this,
-add this to your requirements in ``setup.py``.
-
-Alternatively, install it directly using pip with
-
-::
-
-    $ pip install urlchecker
-
-.. _urlchecker: https://pypi.python.org/pypi/urlchecker
-.. _Python Package Index (PyPI): https://pypi.python.org/
--->
 
 Development and Testing
 -----------------------
