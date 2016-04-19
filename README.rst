@@ -26,6 +26,9 @@ Module for checking if given URLs are working and if so, if they are parking dom
 Installation
 ------------
 
+This package is currently in development and available only through git.
+
+<!--
 This package is registered on the `Python Package Index (PyPI)`_
 as urlchecker_.
 
@@ -52,6 +55,7 @@ Alternatively, install it directly using pip with
 
 .. _urlchecker: https://pypi.python.org/pypi/urlchecker
 .. _Python Package Index (PyPI): https://pypi.python.org/
+-->
 
 Development and Testing
 -----------------------

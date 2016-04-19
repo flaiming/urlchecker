@@ -1,6 +1,6 @@
-import requests
 import re
 from urlparse import urlparse
+import requests
 
 
 PARKED_PHRASES = (
@@ -28,7 +28,8 @@ def url_valid(url):
         return False
     regex = re.compile(
         r'^https?://'  # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+        # domain ...
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
         r'(?::\d+)?'  # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
@@ -72,7 +73,10 @@ class UrlChecker(object):
             return self.INVALID_URL
         data = ""
         try:
-            res = requests.get(self.url, timeout=self.timeout, headers={'user-agent': "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0"})
+            res = requests.get(self.url, timeout=self.timeout, headers={
+                # TODO better user-agent handling
+                'user-agent': "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0"
+            })
         except requests.exceptions.RequestException:
             return self.ERROR
 
