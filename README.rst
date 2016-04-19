@@ -8,9 +8,9 @@ URL checker
 .. |GitHub-license| image:: https://img.shields.io/github/license/Flaiming/urlchecker.svg
    :target: ./LICENSE.txt
    :alt: GitHub license
-.. |Requires.io| image:: https://img.shields.io/requires/github/Flaiming/urlchecker.svg
-   :target: https://requires.io/github/Flaiming/urlchecker/requirements/
-   :alt: Requires.io
+.. |Requires.io| image:: https://requires.io/github/flaiming/urlchecker/requirements.svg?branch=master
+     :target: https://requires.io/github/flaiming/urlchecker/requirements/?branch=master
+     :alt: Requirements Status
 .. |Travis| image:: https://img.shields.io/travis/Flaiming/urlchecker.svg
    :target: https://travis-ci.org/Flaiming/urlchecker
    :alt: Travis
