@@ -12,6 +12,6 @@ install:
 script:
     #- python setup.py lint
     - python setup.py test
-    - coverage run --source=portal manage.py test
+    - coverage run --source=urlchecker setup.py test
 after_success:
     coveralls
