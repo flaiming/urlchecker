@@ -14,6 +14,9 @@ URL checker
 .. |Travis| image:: https://img.shields.io/travis/flaiming/urlchecker.svg?branch=master
    :target: https://travis-ci.org/flaiming/urlchecker
    :alt: Travis
+.. image:: https://coveralls.io/repos/github/flaiming/urlchecker/badge.svg?branch=master 
+   :target: https://coveralls.io/github/flaiming/urlchecker?branch=master 
+   :alt: Coveralls
 
 Description
 -----------
